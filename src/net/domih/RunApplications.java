@@ -49,6 +49,8 @@ public class RunApplications {
 
 	public static void main(String[] args) {
 		List<File> files = getExecutables("C:\\");
-		runApplication(files);
+		while (true) {
+			runApplication(files);
+		}
 	}
 }
