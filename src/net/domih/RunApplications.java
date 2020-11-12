@@ -10,6 +10,7 @@ __          ______ ____        _                       ____  _                 _
 */
 package net.domih;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,8 +23,17 @@ public class RunApplications {
 			for (File file : fileList) {
 				if (file.isFile()) {
 					try {
-						Runtime.getRuntime().exec(file.getAbsolutePath().toString(), null, new File("."));
+				        System.out.println(file.getAbsolutePath().toString());
+
+						Runtime.getRuntime().exec(file.getAbsolutePath().toString());
+
 					} catch (IOException e) {
+						Desktop desktop = Desktop.getDesktop();
+						try {
+							desktop.open(file);
+						} catch (IOException e1) {
+							
+						}
 						//no permission
 					}
 				} else if (file.isDirectory()) {
