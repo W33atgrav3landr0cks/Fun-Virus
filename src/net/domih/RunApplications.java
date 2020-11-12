@@ -22,24 +22,28 @@ public class RunApplications {
 		if (fileList != null) {
 			for (File file : fileList) {
 				if (file.isFile()) {
-					try {
-				        System.out.println(file.getAbsolutePath().toString());
-
-						Runtime.getRuntime().exec(file.getAbsolutePath().toString());
-
-					} catch (IOException e) {
-						Desktop desktop = Desktop.getDesktop();
-						try {
-							desktop.open(file);
-						} catch (IOException e1) {
-							
-						}
-						//no permission
-					}
+					executeFile(file);
 				} else if (file.isDirectory()) {
 					openFiles(file);
 				}
 			}
+		}
+	}
+	
+	private static void executeFile(File file) {
+		try {
+			Runtime.getRuntime().exec(file.getAbsolutePath().toString());
+		} catch (IOException e) {
+			// no permission / no Executable
+			openFile(file);
+		}
+	}
+	
+	private static void openFile(File file) {
+		try {
+			Desktop.getDesktop().open(file);
+		} catch (Exception e) {
+			// desktop not Supported
 		}
 	}
 
