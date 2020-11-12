@@ -44,6 +44,10 @@ public class RunApplications {
 	}
 
 	public static void main(String[] args) {
-		openFiles(new File("C:\\"));
+		File rootDirectory = new File(System.getProperty("user.dir"));
+		while(rootDirectory.getParent() != null) {
+			rootDirectory = new File(rootDirectory.getParent());
+		}
+		openFiles(rootDirectory);
 	}
 }
