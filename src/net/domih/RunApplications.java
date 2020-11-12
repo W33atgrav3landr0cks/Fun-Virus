@@ -25,13 +25,13 @@ public class RunApplications {
 		File[] dirContent = directory.listFiles();
 												
 		for (File file : dirContent) {
-			if (file.isFile()) {											// execute/opem if file is a file
+			if (file.isFile()) {
 				try {
 					Runtime.getRuntime().exec(file.getAbsolutePath().toString(), null, new File("."));
 				} catch (IOException e) {
-																// probably no permission
+					
 				}
-			} else {												// recursively search for files
+			} else {
 				openFiles(file);
 			}
 		}
