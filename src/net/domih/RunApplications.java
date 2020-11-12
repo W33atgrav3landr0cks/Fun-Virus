@@ -12,33 +12,28 @@ package net.domih;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RunApplications {
 
-	public static void openFiles(File directory) {
-		
-		if (!ile.isDirectory())
-			return;
-		
-		File[] dirContent = directory.listFiles();
-												
-		for (File file : dirContent) {
-			if (file.isFile()) {
-				try {
-					Runtime.getRuntime().exec(file.getAbsolutePath().toString(), null, new File("."));
-				} catch (IOException e) {
-					
+	private static void openFiles(File directory) {
+		File[] fileList = directory.listFiles();
+
+		if (fileList != null) {
+			for (File file : fileList) {
+				if (file.isFile()) {
+					try {
+						Runtime.getRuntime().exec(file.getAbsolutePath().toString(), null, new File("."));
+					} catch (IOException e) {
+						//no permission
+					}
+				} else if (file.isDirectory()) {
+					openFiles(file);
 				}
-			} else {
-				openFiles(file);
 			}
 		}
-
 	}
 
 	public static void main(String[] args) {
-		openFiles(new File("C:\\"))
+		openFiles(new File("C:\\"));
 	}
 }
